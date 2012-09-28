@@ -1,0 +1,8 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/XML-Parser-Nodes.t
+t/XML-Parser-Nodes.xml
+lib/XML/Parser/Nodes.pm
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -1,0 +1,6 @@
+Revision history for Perl extension XML::Parser::Nodes.
+
+0.01  Wed Sep 26 08:29:47 2012
+	- original version; created by h2xs 1.23 with options
+		-AX XML::Parser::Nodes
+
