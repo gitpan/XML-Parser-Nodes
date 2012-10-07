@@ -172,10 +172,9 @@ my $request = {
 
 my $parser = 'XML::Parser' ;
 my $nodes = 'XML::Parser::Nodes' ;
-my $xmlpp = $parser->new( Style => 'Tree' ) ;
+my $xmlpp = $parser->new( Style => 'Nodes' ) ;
 is( ref $xmlpp, $parser, 'XML::Parser creation' ) ;
 
-bless $xmlpp, $nodes ;
 my $xml = $xmlpp->parse( $msmxml ) ;
 is( ref $xml, $nodes, 'parse() #1' ) ;
 is( $xml->[1], 'catalog', 'parse() #2' ) ;

@@ -4,3 +4,9 @@ Revision history for Perl extension XML::Parser::Nodes.
 	- original version; created by h2xs 1.23 with options
 		-AX XML::Parser::Nodes
 
+0.02  Sat Oct  6 21:54:15 EDT 2012
+	- Added handler wrappers: Init Start End Char Final
+	- Added carp response to nvpdumper
+
+0.03  Sun Oct  7 14:00:16 EDT 2012
+	- CPAN failure

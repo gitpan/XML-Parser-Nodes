@@ -3,13 +3,15 @@ package XML::Parser::Nodes ;
 use 5.008009 ;
 use strict ;
 use warnings ;
+use Carp ;
 
 use XML::Parser ;
 use XML::Dumper ;
+use XML::Parser::Style::Tree ;
 
 require Exporter ;
 
-our @ISA = qw(Exporter);
+our @ISA = qw( Exporter XML::Parser::Style::Tree ) ;
 
 # Items to export into callers namespace by default. Note: do not export
 # names by default without a very good reason. Use EXPORT_OK instead.
@@ -25,8 +27,30 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } ) ;
 
 our @EXPORT = qw( ) ;
 
-our $VERSION = '0.01' ;
+our $VERSION = '0.03' ;
 
+$XML::Parser::Built_In_Styles{Nodes} = 1;
+
+sub Init {
+	return XML::Parser::Style::Tree::Init( @_ ) ;
+	} ;
+
+sub Start {
+	return XML::Parser::Style::Tree::Start( @_ ) ;
+	} ;
+
+sub End {
+	return XML::Parser::Style::Tree::End( @_ ) ;
+	} ;
+
+sub Char {
+	return XML::Parser::Style::Tree::Char( @_ ) ;
+	} ;
+
+sub Final {
+	my $tree = XML::Parser::Style::Tree::Final( @_ ) ;
+	return XML::Parser::Nodes->conform( $tree ) ;
+	} ;
 
 # Preloaded methods go here.
 
@@ -367,9 +391,14 @@ sub nvpdump {
 	my $key = @_ > 3? pop( @_ ): '' ;
 	my $space = @_ > 2? pop( @_ ): -1 ;
 	my $self = pop @_ ;
-
 	my @kids = $self->childnodes ;
-	return nvpdump( @{ $kids[0] } ) if @_ == 0 || $_[0] eq 'perldata' ;
+
+	if ( @_ == 0 ) {
+		@kids = $self->childnode('perldata')->childnodes ;
+		carp( "Data source not from pl2xml" ) && return ""
+				unless @kids == 1 ;
+		return nvpdump( @{ $kids[0] } ) ;
+		}
 
 	my $name = shift ;
 	my $pad = ' 'x$space ;
@@ -404,13 +433,15 @@ XML::Parser::Nodes - Extends XML::Parser
 
 =head2 Constructors
 
-  $node = new XML::Parser::Nodes $xmlFileName ;
+  $node = XML::Parser->new( Style => 'Nodes' )->parsefile( $xmlFileName ) ;
   $node = XML::Parser::Nodes->parsefile( $xmlFileName ) ;
+  $node = new XML::Parser::Nodes $xmlFileName ;
 
   or
 
-  $node = new XML::Parser::Nodes $xmlBufferedScalar ;
+  $node = XML::Parser->new( Style => 'Nodes' )->parse( $xmlBufferedScalar ) ;
   $node = XML::Parser::Nodes->parse( $xmlBufferedScalar ) ;
+  $node = new XML::Parser::Nodes $xmlBufferedScalar ;
 
   or
 
