@@ -27,7 +27,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } ) ;
 
 our @EXPORT = qw( ) ;
 
-our $VERSION = '0.03' ;
+our $VERSION = '0.04' ;
 
 $XML::Parser::Built_In_Styles{Nodes} = 1;
 
@@ -200,8 +200,9 @@ sub gettext {
 	my @a = () ;
 	push @a, [ $self->[ $i ], $self->[ ++$i ] ] while $i++ < $#$self ;
 
-	my @results = map { $_->[1] } grep $_->[0] eq '0', @a ;
-	return @results if wantarray ;
+	my @results = grep defined $_,
+			map { $_->[1] } grep $_->[0] eq '0', @a ;
+	return @results if wantarray || @results == 0 ;
 	return join '', @results ;
 	}
 
@@ -248,7 +249,7 @@ sub xmlout {
 	}
 
 sub retext {
-	my $s = shift ;
+	return '' unless my $s = shift ;
 	$s =~ s/&/&amp;/g ;
 	$s =~ s/>/&gt;/g ;
 	$s =~ s/</&lt;/g ;
@@ -256,7 +257,7 @@ sub retext {
 	}
 
 sub charfix {
-	my $value = shift ;
+	return '' unless my $value = shift ;
 	$value =~ s/&/&amp;/g ;
 	$value =~ s/"/&quot;/g ;
 	$value =~ s/'/&apos;/g ;
@@ -358,6 +359,7 @@ sub newitem {
 	my $value = shift ;
 	my $indent = shift ;
 
+	$attribs->{defined} = 'false' unless defined $value ;
 	my $out = $self->newelement( %$attribs ) ;
 
 	if ( ref $value ) {
@@ -513,7 +515,7 @@ would be accessed as:
 Alternatively,
 
   $nodekey = join '/', $division, $location, $department, 'Director', 'FirstName' ;
-  print nodebykey( $nodekey )->gettext ;
+  print $xmlnode->nodebykey( $nodekey )->gettext ;
 
 Some XML documents are more complex and contain sets of values.  
 

@@ -10,3 +10,9 @@ Revision history for Perl extension XML::Parser::Nodes.
 
 0.03  Sun Oct  7 14:00:16 EDT 2012
 	- CPAN failure
+
+0.04  Sat Nov  3 00:53:22 EDT 2012
+	- Fixed retext() and charfix():  No more warnings on empty text.
+	- Fixed newitem():  Added "defined" attribute
+
+
