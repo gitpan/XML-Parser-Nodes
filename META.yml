@@ -20,4 +20,4 @@ no_index:
 requires:
   XML::Dumper: 0.81
   XML::Parser: 2.36
-version: 0.04
+version: 0.05

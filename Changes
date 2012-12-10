@@ -16,3 +16,5 @@ Revision history for Perl extension XML::Parser::Nodes.
 	- Fixed newitem():  Added "defined" attribute
 
 
+0.05  Mon Dec 10 12:53:17 EST 2012
+	- Fixed retext() and charfix():  '0' not interpreted as empty text.

@@ -27,7 +27,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } ) ;
 
 our @EXPORT = qw( ) ;
 
-our $VERSION = '0.04' ;
+our $VERSION = '0.05' ;
 
 $XML::Parser::Built_In_Styles{Nodes} = 1;
 
@@ -249,7 +249,8 @@ sub xmlout {
 	}
 
 sub retext {
-	return '' unless my $s = shift ;
+	my $s = shift ;
+	return '' unless defined $s ;
 	$s =~ s/&/&amp;/g ;
 	$s =~ s/>/&gt;/g ;
 	$s =~ s/</&lt;/g ;
@@ -257,7 +258,8 @@ sub retext {
 	}
 
 sub charfix {
-	return '' unless my $value = shift ;
+	my $value = shift ;
+	return '' unless defined $value ;
 	$value =~ s/&/&amp;/g ;
 	$value =~ s/"/&quot;/g ;
 	$value =~ s/'/&apos;/g ;
