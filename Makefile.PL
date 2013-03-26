@@ -23,7 +23,7 @@ sub requiredmodules {
 	# e.g., Module::Name => 1.1
 	return {
 		XML::Dumper => 0.81,
-		XML::Parser => 2.36,
+		XML::Parser => 2.41,
 		} ;
 	}
 

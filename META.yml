@@ -19,5 +19,5 @@ no_index:
     - inc
 requires:
   XML::Dumper: 0.81
-  XML::Parser: 2.36
-version: 0.05
+  XML::Parser: 2.41
+version: 0.07

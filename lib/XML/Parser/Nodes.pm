@@ -27,7 +27,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } ) ;
 
 our @EXPORT = qw( ) ;
 
-our $VERSION = '0.05' ;
+our $VERSION = '0.07' ;
 
 $XML::Parser::Built_In_Styles{Nodes} = 1;
 
@@ -202,7 +202,7 @@ sub gettext {
 
 	my @results = grep defined $_,
 			map { $_->[1] } grep $_->[0] eq '0', @a ;
-	return @results if wantarray || @results == 0 ;
+	return @results if wantarray && @results != 0 ;
 	return join '', @results ;
 	}
 
