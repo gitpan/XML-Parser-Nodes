@@ -27,7 +27,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } ) ;
 
 our @EXPORT = qw( ) ;
 
-our $VERSION = '0.07' ;
+our $VERSION = '0.08' ;
 
 $XML::Parser::Built_In_Styles{Nodes} = 1;
 
@@ -298,7 +298,6 @@ sub nextpl2xml {
 		local $_ = ref $ref ;
 		my $class = '' ;
 		my $address = '' ;
-		my $key = '' ;
 	
 		if ( /^(?:SCALAR|HASH|ARRAY)$/ ) {
 			( $_, $address) = overload::StrVal( $ref ) 
@@ -317,12 +316,10 @@ sub nextpl2xml {
 		$out->[0]->{memory_address} = $address if $address ;
 
 		if ( /^SCALAR$/ && ! $reused ) {
-			$key = 'scalarref' ;
 			$out->[0]->{defined} = 'false' unless defined $$ref ;
 			$out->addelement( 0 => $$ref ) ;
 			}
 		elsif ( /^HASH$/ && ! $reused ) {
-			$key = 'hashref' ;
 			foreach my $k ( keys %$ref ) {
 				$out->addelement( $indentstr ) ;
 				$out->addelement( newitem( $self,
@@ -334,7 +331,6 @@ sub nextpl2xml {
 			$out->addelement( "\n" . " " x( $indent -1 ) ) ;
 			}
 		elsif ( /^ARRAY$/ && ! $reused ) {
-			$key = 'arrayref' ;
 			for ( my $ct = 0 ; $ct < @$ref ; $ct++ ) {
 				$out->addelement( $indentstr ) ;
 				$out->addelement( newitem( $self,
@@ -346,6 +342,10 @@ sub nextpl2xml {
 			$out->addelement( "\n" . " " x( $indent -1 ) ) ;
 			}
 
+		my $key = /^SCALAR$/? 'scalarref':
+				/^HASH$/? 'hashref':
+				/^ARRAY$/? 'arrayref': '' ;
+
 		return $key => $out ;
 		}
 	else {
@@ -354,6 +354,7 @@ sub nextpl2xml {
 		return ( scalar => $out ) ;
 		}
 	}
+
 
 sub newitem {
 	my $self = shift ;
